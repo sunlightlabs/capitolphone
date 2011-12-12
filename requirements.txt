@@ -1,2 +1,6 @@
 Flask
 twilio
+pymongo
+python-sunlightapi
+-e git://github.com/sunlightlabs/python-transparencydata.git#egg=transparencydata
+-e git://github.com/sunlightlabs/python-realtimecongress.git#egg=realtimecongress

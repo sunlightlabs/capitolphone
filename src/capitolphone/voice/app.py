@@ -253,6 +253,7 @@ def signup():
 
         r.play('http://assets.sunlightfoundation.com/projects/transparencyconnect/audio/9-2.wav')
         r.record(action='/voice/message', timeout=10, maxLength=120)
+        r.redirect('/voice/reps')
 
     elif selection == '3':
 
@@ -271,7 +272,9 @@ def message():
         'url': request.form['RecordingUrl'],
         'timestamp': g.now,
     })
-    return twiml.Response().redirect('/voice/reps')
+    r = twiml.Response()
+    r.redirect('/voice/reps')
+    return r
 
 @app.route("/test", methods=['GET'])
 def test_method():

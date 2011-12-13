@@ -155,8 +155,9 @@ def handle_selection(selection):
 
         r.play('http://assets.sunlightfoundation.com/projects/transparencyconnect/audio/1.wav')
         r.say(script)
-        r.play('http://assets.sunlightfoundation.com/projects/transparencyconnect/audio/1-out.wav')
-        r.redirect('/voice/next/2')
+
+        with r.gather(numDigits=1, timeout=10, action='/voice/next/2') as rg:
+            rg.play('http://assets.sunlightfoundation.com/projects/transparencyconnect/audio/1-out.wav')
 
     elif selection == '2':
 
@@ -166,16 +167,18 @@ def handle_selection(selection):
 
         r.play('http://assets.sunlightfoundation.com/projects/transparencyconnect/audio/2.wav')
         r.say("%s. %s" % (g.legislator['fullname'], script))
-        r.play('http://assets.sunlightfoundation.com/projects/transparencyconnect/audio/2-out.wav')
-        r.redirect('/voice/next/3')
+
+        with r.gather(numDigits=1, timeout=10, action='/voice/next/3') as rg:
+            rg.play('http://assets.sunlightfoundation.com/projects/transparencyconnect/audio/2-out.wav')
 
     elif selection == '3':
 
         bio = data.legislator_bio(g.legislator)
 
         r.say(bio or ('Sorry, we were unable to locate a biography for %s' % g.legislator['fullname']))
-        r.play('http://assets.sunlightfoundation.com/projects/transparencyconnect/audio/3-out.wav')
-        r.redirect('/voice/next/4')
+
+        with r.gather(numDigits=1, timeout=10, action='/voice/next/4') as rg:
+            rg.play('http://assets.sunlightfoundation.com/projects/transparencyconnect/audio/3-out.wav')
 
     elif selection == '4':
 
@@ -184,9 +187,9 @@ def handle_selection(selection):
         r.say(g.legislator['fullname'])
         r.play('http://assets.sunlightfoundation.com/projects/transparencyconnect/audio/4.wav')
         r.say(comms)
-        r.play('http://assets.sunlightfoundation.com/projects/transparencyconnect/audio/4-out.wav')
 
-        r.redirect('/voice/next/5')
+        with r.gather(numDigits=1, timeout=10, action='/voice/next/5') as rg:
+            rg.play('http://assets.sunlightfoundation.com/projects/transparencyconnect/audio/4-out.wav')
 
     elif selection == '5':
 

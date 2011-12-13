@@ -127,15 +127,15 @@ def legislator_bio(legislator):
     return metadata['metadata']['bio']
 
 def committee_iter(committees):
-    for comm in comms:
-        yield name
+    for comm in committees:
+        yield comm.name
         if comm.subcommittees:
             for subcomm in comm.subcommittees:
                 yield subcomm.name
 
 def committees(legislator):
     comms = sunlight.committees.allForLegislator(g.legislator['bioguide_id'])
-    names = " ".join("%s." c for c in committee_iter(comms))
+    names = " ".join("%s." % c for c in committee_iter(comms))
     return names
 
 def recent_votes(legislator):

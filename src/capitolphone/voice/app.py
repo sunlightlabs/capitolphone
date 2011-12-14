@@ -86,7 +86,7 @@ def zipcode():
     """ Handles POSTed zipcode and prompts for legislator selection.
     """
 
-    zipcode = request.form.get('Digits', None)
+    zipcode = request.form.get('Digits', g.zipcode)
     r = twiml.Response()
 
     if zipcode == '00000':
@@ -206,6 +206,9 @@ def handle_selection(selection):
 
         with r.gather(numDigits=1, timeout=10, action='/voice/signup') as rg:
             rg.play('http://assets.sunlightfoundation.com/projects/transparencyconnect/audio/9.wav')
+
+    elif selection == '0':
+        r.redirect('/voice/zipcode')
 
     else:
         r.say("I'm sorry, I don't recognize that selection. I will read you the options again.")

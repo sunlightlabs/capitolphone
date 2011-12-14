@@ -107,7 +107,8 @@ def zipcode():
         if legislators:
 
             options = [(l['fullname'], l['bioguide_id']) for l in legislators]
-            script = ". ".join("Press %i for %s" % (index + 1, o[0]) for index, o in enumerate(options))
+            script = " ".join("Press %i for %s." % (index + 1, o[0]) for index, o in enumerate(options))
+            script += " Press 0 to enter a new zipcode."
 
             if len(legislators) > 3:
                 r.play('http://assets.sunlightfoundation.com/projects/transparencyconnect/audio/selectlegalt.wav')
@@ -129,14 +130,26 @@ def zipcode():
 @twilioify
 def reps():
 
+    r = twiml.Response()
+
     if 'Digits' in request.form:
-        selection = int(request.form.get('Digits', None)) - 1
-        legislator = data.legislators_for_zip(g.zipcode)[selection]
-        g.call['context']['legislator'] = legislator
+
+        digits = request.form.get('Digits', None)
+
+        if digits == '0':
+
+            r.redirect('/voice')
+            return r # shortcut the process and start over
+
+        else:
+
+            selection = int(digits) - 1
+            legislator = data.legislators_for_zip(g.zipcode)[selection]
+            g.call['context']['legislator'] = legislator
+
     else:
         legislator = g.legislator
 
-    r = twiml.Response()
     r.play('http://assets.sunlightfoundation.com/projects/transparencyconnect/audio/mainmenu-intro.wav')
     r.say('%s' % legislator['fullname'])
     with r.gather(numDigits=1, timeout=30, action='/voice/rep') as rg:
